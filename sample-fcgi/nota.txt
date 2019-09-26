@@ -1,0 +1,8 @@
+
+Programa 'fgci' que se va a copiar en /var/www.
+Este va a ser nuestro 'servicio' recibiendo las peticiones del servidor http, mediante fastcgi.
+
+Para compilar este programa se va a linkar estaticamente con libkcgi.z
+
+sample-fcgi: sample-fcgi.o libkcgi.a 
+	$(CC) -o $@ $(STATIC) sample-fcgi.o -L. libkcgi.a -lz
