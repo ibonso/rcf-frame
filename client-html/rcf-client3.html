@@ -1,0 +1,1335 @@
+<html>
+<head>
+	<title>rcf-frame</title>	
+    <script src="md5.js"></script>
+    <script src="base64.js"></script>
+    <script src="rcfoperation.js"></script>
+    <script src="rcfuser.js"></script>
+    <!-- https://www.sanwebe.com/2014/08/css-html-forms-designs form style2 -->
+    <style type="text/css">
+        .form-style-2{
+            max-width: 500px;
+            padding: 10px 12px 10px 20px;
+            font: 13px Arial, Helvetica, sans-serif;
+        }
+        .form-style-2-heading{
+            font-weight: bold;
+            font-style: italic;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+            font-size: 15px;
+            padding-bottom: 3px;
+        }
+        .form-style-2 label{
+            display: block;
+            margin: 0px 0px 15px 0px;
+        }
+        .form-style-2 label > span{
+            width: 100px;
+            font-weight: bold;
+            float: left;
+            padding-top: 8px;
+            padding-right: 5px;
+        }
+        .form-style-2 span.required{
+            color:red;
+        }
+        .form-style-2 .tel-number-field{
+            width: 40px;
+            text-align: center;
+        }
+        .form-style-2 input.input-field, .form-style-2 .select-field{
+            width: 48%;
+        }
+        .form-style-2 input.input-field,
+        .form-style-2 .tel-number-field,
+        .form-style-2 .textarea-field,
+        .form-style-2 .select-field{
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            border: 1px solid #C2C2C2;
+            box-shadow: 1px 1px 4px #EBEBEB;
+            -moz-box-shadow: 1px 1px 4px #EBEBEB;
+            -webkit-box-shadow: 1px 1px 4px #EBEBEB;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            padding: 7px;
+            outline: none;
+        }
+        .form-style-2 .input-field:focus,
+        .form-style-2 .tel-number-field:focus,
+        .form-style-2 .textarea-field:focus,
+        .form-style-2 .select-field:focus{
+            border: 1px solid #0C0;
+        }
+        
+        .form-style-2 .tel-number-field:focus .readonly {
+			border: 1px solid #0C0;
+		}
+        
+        .form-style-2 .textarea-field{
+            height:100px;
+            width: 55%;
+        }
+        
+        .form-style-2 .textarea-field4{
+            height:20px;
+            width: 5%;
+        }
+        
+        
+        .form-style-2 input[type=submit],
+        .form-style-2 input[type=button]{
+            border: none;
+            padding: 8px 15px 8px 15px;
+            background: #FF8500;
+            color: #fff;
+            box-shadow: 1px 1px 4px #DADADA;
+            -moz-box-shadow: 1px 1px 4px #DADADA;
+            -webkit-box-shadow: 1px 1px 4px #DADADA;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+        }
+        .form-style-2 input[type=submit]:hover,
+        .form-style-2 input[type=button]:hover{
+            background: #EA7B00;
+            color: #fff;
+        }
+
+        .clabutton{
+            border: none;
+            padding: 8px 15px 8px 15px;
+            background: #FF8500;
+            color: #fff;
+            box-shadow: 1px 1px 4px #DADADA;
+            -moz-box-shadow: 1px 1px 4px #DADADA;
+            -webkit-box-shadow: 1px 1px 4px #DADADA;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+        }
+
+		.circle_green {
+			  background-color: rgb(60,179,113);
+			  border-radius: 50%;
+			  -moz-border-radius: 50%;
+			  -webkit-border-radius: 50%;
+			  cursor: pointer;
+			  width: 50px;
+			  height: 50px;
+		}
+		
+		.circle_red {
+			  background-color: rgb(255,0,0);
+			  border-radius: 50%;
+			  -moz-border-radius: 50%;
+			  -webkit-border-radius: 50%;
+			  cursor: pointer;
+			  width: 50px;
+			  height: 50px;
+		}
+		
+		
+		/*
+		.circle:hover {
+			background-color: red;
+		}*/
+
+		#div-1a {
+		float:left;
+		width:120px;
+		}
+
+    </style>
+</head>
+<body>
+<!--
+<div>
+<div class="outer-inline-box">
+  <img class="circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
+</div>
+<div class="outer-inline-box">
+  <div class="circle"></div>
+</div>
+-->
+
+<!-- div id="div-1a" class="form-style-2-heading">rcf ajax test-</div><div class="circle"></div -->
+
+<div id="head" style="padding: 10px;display: flex;">
+  <div id="div-1a" class="form-style-2-heading">rcf ajax test:</div>
+    <div class="outer-inline-box">
+     <img id="rcf-server-status" class="circle_red" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
+    </div>
+  <div class="form-style-2-heading">Session:</div>
+  <div class="form-style-2-heading" id="session_state">OFF</div>
+</div>
+
+
+
+<div id="optionbat">
+	<button class="clabutton" id="botonping" 	onclick="javascript:optionsel('ping')">ping</button>
+    <button class="clabutton" id="botonlogin" 	onclick="javascript:optionsel('login')">login</button>
+    <button class="clabutton" id="botonlsdir" 	onclick="javascript:optionsel('lsdir')">lsdir</button>
+    <button class="clabutton" id="botonuser"  	onclick="javascript:optionsel('sessionuser');rcf_op_user_init()">user</button>
+    <button class="clabutton" id="botonnewuser"	onclick="javascript:optionsel('newuser');">create user</button>
+    <button class="clabutton" id="botonnewuser"	onclick="javascript:optionsel('listuser');">list users</button>
+    <button class="clabutton" id="botoncommand" onclick="javascript:optionsel('command');">command</button>
+    <button class="clabutton" id="botonservice" onclick="javascript:optionsel('service');">service</button>
+    <button class="clabutton" id="botonbblue"   onclick="javascript:optionsel('bblue');">bblue</button>
+    
+</div>
+
+<div id="ping_div" class="form-style-2" style="display:block">
+    <span class="label">Check rcf server state: </span><span id="ping_res" class="label">...</span><p/>
+    <button class="clabutton" id="botonping" onclick="javascript:Create_rcfPing.rcf_op_ping()">ping-(POST)</button>
+</div>
+
+<div id="login_div" class="form-style-2" style="display:none">
+	
+    <span class="label">User:</span><input type="text" id="login_id" name="login_id" class="input-field"></input><p/>
+    <span class="lavel">Password:</span><input type="password" id="login_pass" name="login_pass" class="input-field"/><p/>
+    <button class="clabutton" id="botonpost" onclick="javascript:Create_rcfLogin.rcf_op_login(document.getElementById('login_id').value, document.getElementById('login_pass').value)">login-(POST)</button>
+    <button class="clabutton" id="botonlogout" onclick="javascript:rcfAPP.rcf_op_logout()">logout-(POST)</button>
+    
+</div>
+
+<div id="lsdir_div" class="form-style-2" style="display:none">
+	<div id="lsdir_line_temp" style="display:none">
+		<span class="label">Label_template</span><input type="text" id="j1_login_usr" name="j1_login_usr" class="input-field">
+	</div>
+    Directorio:<input type="text" id="dir" class="input-field"></input>
+    <button id="botonlsdir" onclick="javascript:rcfAPP.rcf_op_lsdir(document.getElementById('dir').value)">lsdir-(POST)</button>
+    <p>
+		<textarea id="textolargo" cols='60' rows='18' readonly="readonly">
+		</textarea>
+    </p>
+</div>
+
+<div id="sessionuser_div" class="form-style-2" style="display:none">
+        <p/>
+        <div id="login">Session user</div>
+        <span class="label">Pkid:</span><input tyte="text"  id="usrpkid" class="input-field readonly" readonly="readonly"></input><p/>
+        <span class="label">Name:</span><input type="text"  id="name" class="input-field"></input><p/>
+        <span class="label">Login:</span><input type="text"  id="usrlogin"  class="input-field readonly" readonly="readonly"></input><p/>
+        <span class="label">Email:</span><input type="text" id="email" class="input-field"	></input><p/>
+        <span class="label">Actual password:</span><input type="password" id="oldpass" class="input-field"	></input><p/>
+        <span class="label">New password:</span><input type="password" id="newpass" class="input-field"	></input><p/>
+        <button id="botonsessionuser" onclick="javascript:rcf_op_updateuser()">Update-(POST)</button>
+</div>
+
+<div id="user_div" class="form-style-2" style="display:none">
+        <p/>
+        <div id="login">User</div>
+        <span class="label">Pkid:</span><input tyte="text"  id="usrpkid" class="input-field readonly" readonly="readonly" ></input><p/>
+        <span class="label">Name:</span><input type="text"  id="name" class="input-field"></input><p/>
+        <span class="label">Login:</span><input type="text"  id="usrlogin"  class="input-field readonly" readonly="readonly"></input><p/>
+        <span class="label">Email:</span><input type="text" id="email" class="input-field"	></input><p/>
+        <span class="label">Actual password:</span><input type="password" id="oldpass" class="input-field"	></input><p/>
+        <span class="label">New password:</span><input type="password" id="newpass" class="input-field"	></input><p/>
+        <button id="botonuser" onclick="javascript:rcf_op_updateuser()">Update-(POST)</button>
+</div>
+
+<div id="newuser_div" class="form-style-2" style="display:none">
+	<span class="label">Name:</span><input type="text"  id="newuser_name" class="input-field"></input><p/>
+	<span class="label">Login:</span><input type="text"  id="newuser_login"  class="input-field readonly"></input><p/>
+    <span class="label">Email:</span><input type="text" id="newuser_email" class="input-field"	></input><p/>
+    <span class="label">Password:</span><input type="password" id="newuser_pass" class="input-field"	></input><p/>
+    <span class="label">Repeat password:</span><input type="password" id="newuser_pass2" class="input-field"	></input><p/>
+	
+	<button id="botonuser" onclick="javascript:rcf_op_createuser()">Create</button>
+</div>
+<div id="listuser_div" class="form-style-2" style="display:none">
+	<table>
+	<tr><td><span id="">name</span></td>
+		<td><span id="">login</span></td>
+		<td><span id="">lastlogin</span></td>
+	</tr></table>
+	<button id="botonuser" onclick="javascript:rcf_op_listeuser()">Detail</button>
+</div>
+
+<div id="command_div" class="form-style-2" style="display:none">
+    <p>
+        Command:<input type="text" id="exepath" class="input-field"></input>
+        <button id="botoncommand" onclick="javascript:rcfAPP.rcf_op_command()">command-(POST)</button>
+    </p>
+    <p>
+		<textarea id="textolargo_command" cols='60' rows='18'>
+		</textarea>
+    </p>
+</div>
+
+<div id="service_div" class="form-style-2" style="display:none">
+		
+	<table style="width:100%">
+		<tr><td>fswebcam</td>
+			<td><button id="fswebcam_start_boton" onclick="javascript:rcfAPP.rcf_op_service('fswebcam', 'start', 'fswebcamtext')">start</button></td>
+			<td><button id="fswebcam_stop_boton" onclick="javascript:rcfAPP.rcf_op_service('fswebcam', 'stop', 'fswebcamtext')">stop</button></td>
+			<td><button id="fswebcam_status_boton" onclick="javascript:rcfAPP.rcf_op_service('fswebcam', 'status', 'fswebcamtext')">status</button></td>
+			<td><textarea id="fswebcamtext" cols='55' rows='3'></textarea></td>
+		</tr>
+	</table>
+	<table style="width:100%"> 
+		<tr><td>command</td>
+			<td><button id="rcf-serv-r_start" onclick="javascript:rcfAPP.rcf_op_service('rcf-serv-r', 'start', 'rcf-serv-r_status')">start</button></td>
+			<td><button id="rcf-serv-r_stop" onclick="javascript:rcfAPP.rcf_op_service('rcf-serv-r', 'stop', 'rcf-serv-r_status')">stop</button></td>
+			<td><button id="command_update" onclick="javascript:rcfAPP.rcf_op_service('rcf-serv-r', 'status', 'rcf-serv-r_status')">status</button></td>
+			<td><textarea id="rcf-serv-r_status" cols='55' rows='3'></textarea></td>
+		</tr>
+	</table>	
+	<table style="width:100%; border: 1px solid black;">
+		<tr><th>Service name</th><th>start</th><th>stop</th><th>Status</th><th>response</th></tr>
+		<tr>
+			<td>rcf-serv-blue</td>
+			<td><button id="rcf-serv-blue_start" onclick="javascript:rcfAPP.rcf_op_service('rcf-serv-blue', 'status', 'rcf-serv-blue_status')">start</button></td>
+			<td><button id="rcf-serv-blue_stop" onclick="javascript:rcfAPP.rcf_op_service('rcf-serv-blue', 'stop', 'rcf-serv-blue_status')">stop</button></td>
+			<td><button id="rcf-serv-blue_update" onclick="javascript:rcfAPP.rcf_op_service('rcf-serv-blue', 'status', 'rcf-serv-blue_status')">status</button></td>
+			<td><textarea id="rcf-serv-blue_status" cols='55' rows='3'></textarea></td>
+		</tr>
+	</table>
+</div>
+
+
+<div id="bblue_div" class="form-style-2" style="display:none">
+    <div>
+        Beaglebone blue:<input type="text" id="j1_bblue_command" class="input-field"></input>
+        <button id="bluecommand" class="clabutton" onclick="javascript:rcfAPP.rcf_op_blue(document.getElementById('j1_bblue_command').value)">command-(POST)</button>
+    </div>
+    <p></p>
+   
+    <div>Giro time/duty<input type="text" id="bblue_spin_time" class="input-field textarea-field4" style="width:5em" value="500"></input>
+                       <input type="text" id="bblue_spin_duty" class="input-field textarea-field4" maxlength="4" style="width:5em" value="0.5"></input>
+    </div>
+    <div>Straight time/duty
+		<input type="text" id="bblue_linear_time" class="input-field textarea-field4" style="width:5em"  value="500"></input><input type="text" id="bblue_linear_duty" class="input-field textarea-field4" style="width:5em" value="0.5"></input>
+    </div>
+    <table>
+		<tr>
+			<td></td>
+			<td><input type="hidden" id="j1_bblue_forward" class="input-field" value="exemotor1 -m0 -t500 -d0.5" /><button id="bluecommand" class="clabutton" onclick="javascript:rcfAPP.rcf_op_blue(operationDirection( 'F' ))">F</button></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><input type="hidden" id="j1_bblue_left" class="input-field" value="exemotor1 -m1 -t500 -d-0.5" /><button id="bluecommand" class="clabutton" onclick="javascript:rcfAPP.rcf_op_blue(operationDirection( 'L' ))">L</button></td>
+			<td></td>
+			<td><input type="hidden" id="j1_bblue_right" class="input-field" value="exemotor1 -m1 -t500 -d-0.5" /><button id="bluecommand" class="clabutton" onclick="javascript:rcfAPP.rcf_op_blue(operationDirection( 'R' ))">R</button></td>	
+		</tr>
+		<tr>
+		<td></td>	
+		<td><input type="hidden" id="j1_bblue_backward" class="input-field" value="exemotor1 -m0 -t500 -d-0.5" /><button id="bluecommand" class="clabutton" onclick="javascript:rcfAPP.rcf_op_blue(operationDirection( 'B' ))">B</button></td>
+		<td></td>
+		</tr>
+    </table>
+    
+    <span id="show_bblue_image_div" class="label" style="cursor:pointer;color:blue;text-decoration:underline;" onclick="javascript:showOrHide('bblue_image_div')" >+-</span>
+    <div id="bblue_image_div">
+      <img src='__NO__bluecam.jpg' id='bblue_image' name='bbluecam' />
+    </div>
+</div>
+
+
+
+<span id="show_data" class="label" style="cursor:pointer;color:blue;text-decoration:underline;">+</span>
+<div id="data_div" class="form-style-2" style="border:1px solid black;">
+
+    <div>Session:<input type="text" id="session" class="input-field readonly" readonly="readonly"></input></div>
+    <div>Sigop:<input type="text" id="sigop" class="input-field readonly" readonly="readonly"></input></div>
+    <div/>
+    <span class="label">Operation:</span><input type="text" id="data_opername" class="input-field readonly" readonly="readonly"></input><p/>
+	<span class="label">Status:</span><input type="text" id="msg_status" class="input-field readonly" readonly="readonly"></input><p/>
+	<span class="label">Message:</span><input type="text" id="msg_message" class="input-field readonly" readonly="readonly"></input><p/>
+	
+	<div class="label">Sent message:</div>
+	<textarea id="send_txt" cols='50' rows='11' readonly="readonly"></textarea>	
+	<div class="label">Show J1 message :</div>
+	<textarea id="data_txt" cols='50' rows='11' readonly="readonly"></textarea>	
+</div>
+
+<script>
+	
+/**
+        C++            javascript
+rcfOp                  (Create_rcfOperation)
+  |
+  |---- rcfOpPing      (Create_rcfPing)
+  |---- rcfOpLogin     (Create_rcfLogin) 
+  |---- rcfOpLogout    (Create_rcfLogout)
+  |---- rcfOpLsDir     (Create_rcfLsdir)
+  |-----rcfSessionUser (Create_rcfSessionUser) 
+  |-----rcfOpUser      (Create_rcfUser) 
+  |-----rcfOpCommand   (Create_rcfCommand)
+  |-----rcfOpService   (Create_rcfService)
+  |-----rcfOpBlue      (Create_rcfServBlue)
+
+**/
+	
+var rcfAPP = {};
+
+rcfAPP.glob_httpStatus=null;
+rcfAPP.glob_operation=null;
+rcfAPP.glob_J0=null;	
+rcfAPP.glob_J1=null;
+rcfAPP.glob_session=null;
+rcfAPP.glob_pid=null;
+rcfAPP.glob_sigop=null;
+
+
+rcfAPP.glob_blueapanel=false; //true When bblue tab is active
+rcfAPP.glob_blue={};
+
+rcfAPP.glob_blue.linemovetime=500;
+rcfAPP.glob_blue.linemoveduty=0.5;
+rcfAPP.glob_blue.spinmovetime=300;
+rcfAPP.glob_blue.spinmoveduty=0.5;
+
+
+/**  **/
+
+function checkMaxTimeValue( value, inputElement, mini, maxi ) 
+{
+	if( value < mini ) { 
+		value= mini;
+		inputElement.value=value;
+	}else if( value > maxi ) {
+			alert("Too long...");
+			value=maxi;
+			inputElement.value=value;
+	}
+	return value;
+}
+
+function change_spinmovetime(event) {
+	
+	var inputElement=document.getElementById('bblue_spin_time');
+	var newVal=inputElement.value;
+	newVal=checkMaxTimeValue(newVal, inputElement, 200, 5000);
+	rcfAPP.glob_blue.spinmovetime=newVal;
+}
+
+function change_spinmoveduty(event) {
+	var inputElement=document.getElementById('bblue_linear_duty');
+	var newVal=inputElement.value;
+	newVal=checkMaxTimeValue(newVal, inputElement, 0.1, 1);
+	rcfAPP.glob_blue.spinmoveduty=newVal;
+}
+
+function change_linemovetime(event) {
+	var inputElement=document.getElementById('bblue_linear_time');
+	var newVal=inputElement.value;
+	newVal=checkMaxTimeValue(newVal, inputElement, 200, 5000);
+	rcfAPP.glob_blue.linemovetime=newVal
+}
+
+function change_linemoveduty(event) {
+	var inputElement=document.getElementById('bblue_linear_duty');
+	var newVal=inputElement.value;
+	newVal=checkMaxTimeValue(newVal, inputElement, 0.1, 1);
+	rcfAPP.glob_blue.linemoveduty=newVal;
+}
+
+
+
+rcfAPP.onloadmain=function () {
+	
+		var session = localStorage.sessionrcf;
+		
+		if (!session) {
+			console.log( "No prev session" );
+		}else {
+			alert("Previos session "+session);
+		}
+	
+		Create_rcfPing.rcf_op_ping();
+		window.setInterval(window.myTimeoutBlueImg, 1000);
+		document.getElementById('bblue_linear_time').addEventListener("change", change_linemovetime);
+		document.getElementById('bblue_linear_duty').addEventListener("change", change_linemoveduty);
+		document.getElementById('bblue_spin_time').addEventListener("change", change_spinmovetime);
+		document.getElementById('bblue_spin_duty').addEventListener("change", change_spinmoveduty);
+}
+
+window.onload= rcfAPP.onloadmain;	
+
+window.rcf_response = function(data) {
+	rcfAPP.showresponse(data)
+}
+
+window.rcf_noresponse= function(data) {
+	var opername=rcfAPP.glob_operation;
+	console.log("Error noresponse operation: " + opername );
+	console.log("Error noresponse httpstatus: " + httpstatus );
+	
+	var  method_prefix = "pintar_noresp_";
+	var funcName=method_prefix + opername;
+	
+	rcfAPP.glob_httpStatus=httpstatus;
+	
+	try {
+		rcfAPP[funcName](rcfAPP.glob_J0, rcfAPP.glob_J1);
+	}catch(e) {
+		console.log("INFO, theres is no rcfAPP["+funcName+"]" ); 	
+	}
+	console.log("Error noresponse: " + httpstatus );
+}
+
+rcfAPP.showresponse=function( data ) {
+		
+	   var opername=data["name"];		
+	   rcfAPP.glob_operation=opername;
+	   rcfAPP.glob_J0=data;	
+	   rcfAPP.glob_J1=data[opername];
+	   
+	   console.log("mostrado j1:"+JSON.stringify(rcfAPP.glob_J1) ); 	
+	   document.getElementById("data_txt").innerHTML=JSON.stringify(rcfAPP.glob_J1);
+	   
+	   
+	   if (data[opername] ) {
+		 console.log(data[opername]["status"]);
+		 //document.getElementById("msg_session").innerHTML="";
+		 //document.getElementById("msg_sigop").innerHTML="";
+		 
+		 document.getElementById("data_opername").value=opername;
+		 document.getElementById("msg_status").value=data[opername]["status"];
+		 document.getElementById("msg_message").value=data[opername]["data"]["msg"];
+		 
+		 //Create function name based in opername:
+		 // pintar_<opername>
+		 //
+		 var  method_prefix = "pintar_";
+		 var funcName=method_prefix + opername;
+		 console.log("Create_rcfOperation.prototype.response funcName:"+funcName ); 
+		 try {	
+		   // Call function:
+		   window[funcName](rcfAPP.glob_J0, rcfAPP.glob_J1);
+		 }catch(e) {
+		   console.log("ERROR calling function: window["+funcName+"]" ); 
+		   console.log("Will call function:rcfAPP["+funcName+"]" ); 
+		   rcfAPP[funcName](rcfAPP.glob_J0, rcfAPP.glob_J1);
+		   //console.log("Called function:"+rcfAPP[funcName] ); print all function!
+		 }
+		
+							 
+	  }else{
+		 console.log("Error: "+ data[opername]["data"]["msg"]);
+	  }	
+}
+
+
+ window.rcf_ajax_post = function (url, callback, callbacknoresponse, params) {
+		//var params = 'rcf=ipsum&name=binny';
+		rcfAPP.glob_httpStatus='';
+		var xmlhttp = new XMLHttpRequest();
+		console.log("POST");
+		xmlhttp.onreadystatechange = function() {
+				console.log('ajax_post onreadystatechange: '+ xmlhttp.status +'  '+xmlhttp.readyState);
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						console.log('responseText:' + xmlhttp.responseText);
+						try {
+								var data = JSON.parse(xmlhttp.responseText);
+						} catch(err) {
+								console.log(err.message + " in " + xmlhttp.responseText);
+								return;
+						}
+						callback(data);
+				} else if (xmlhttp.readyState == 4) {
+					console.log('ERROR estatus no 200: '+ xmlhttp.status );
+					rcfAPP.glob_httpStatus=xmlhttp.status;
+					callbacknoresponse( xmlhttp.status );
+					
+				} else {
+					console.log('ERROR no ready : '+ xmlhttp.readyState );
+					rcfAPP.glob_httpStatus=xmlhttp.status;
+					
+				}
+		};
+
+		xmlhttp.open("POST", url, true);
+		//'Content-Type', 'application/x-www-form-urlencoded'
+		//
+		xmlhttp.setRequestHeader('Content-Type', 'text/plain');
+		xmlhttp.send(params);
+}
+
+
+	
+
+
+
+
+
+
+
+
+/***
+Common to all operations	
+Objecto oriented js
+  https://scotch.io/tutorials/object-oriented-programming-in-javascript
+***/
+// inherit() returns a newly created object that inherits properties from the
+// prototype object p. It uses the ECMAScript 5 function Object.create() if
+// it is defined, and otherwise falls back to an older technique.
+function inherit(p) {
+	if (p == null) throw TypeError(); // p must be a non-null object
+	if (Object.create)	// If Object.create() is defined...
+		return Object.create(p);
+	
+	var t = typeof p;
+	// Otherwise do some more type checking
+	if (t !== "object" && t !== "function") 
+		throw TypeError();
+	function f() {};	// Define a dummy constructor function.
+	f.prototype = p;	// Set its prototype property to p.
+	return new f();		// Use f() to create an "heir" of p.
+}
+
+
+
+rcfAPP.pintar_ping=function(paramJ0) {
+	var text = JSON.stringify(paramJ0);
+	console.log('pintar_ping:'+text);
+	document.getElementById("ping_res").innerHTML=rcfAPP.glob_httpStatus;
+	document.getElementById("rcf-server-status").className="circle_green";
+	
+	//En caso de no haber conexión no llega a pintar... asi que aqui no vamos 
+	//poder avisar que no hay conexion...
+	
+	if (paramJ0["ping"]["status"] == "success") {
+		//document.getElementById("ping_res").innerHTML="On";
+		//alert("Error: "+ paramJ0["ping"]["data"]["msg"]);
+	}else{
+		//document.getElementById("ping_res").innerHTML="Off";
+		//alert("Error: "+ paramJ0["ping"]["data"]["msg"]);
+	}
+}
+
+rcfAPP.pintar_noresp_ping=function(paramJ0) {
+	
+	document.getElementById("ping_res").innerHTML=rcfAPP.glob_httpStatus;
+	document.getElementById("rcf-server-status").className="circle_red";
+}
+
+
+rcfAPP.myTimeoutPing= function() 
+{
+	console.log('rcfAPP.myTimeoutPing');
+	alert('Y');
+    this.rcf_op_ping();
+    setTimeout(rcfAPP.myTimeoutPing, 3000);
+}
+
+window.myTimeoutBlueImg= function() 
+{
+	if( rcfAPP.glob_session !=null && rcfAPP.glob_blueapanel==true ) { 
+		console.log('rcfAPP.myTimeoutBlueImg SESSION');
+		var d = new Date(); 
+		var image='bluecam.jpg?'+d.getMilliseconds(); 
+		console.log('rcfAPP.myTimeoutBlueImg:'+image);
+		document.getElementById('bblue_image').src = image;
+	} else {
+		console.log('rcfAPP.myTimeoutBlueImg dont need image');
+	}
+    
+}
+
+
+
+/***
+	Operation Login
+	Object(class): Create_rcfLogin
+***/
+
+function Create_rcfLogin(userlogin, pass )
+{
+	console.log('Create_rcfLogin  z: '+ userlogin+' '+pass );
+	var name='login';
+	//Create_rcfOperation.apply(this,name, false);	
+	//Create_rcfOperation.call(name, false);	
+	this.name=name;
+	this.url='/fcgi/login/';
+	this.userlogin=userlogin;
+	this.passmd5=hex_md5(pass);
+	this.j1=''; //Toda la cadena J1
+	this.j0=''; //La cadena J0
+}        
+
+
+// Make Create_rcfLogin a subclass of Create_rcfOperation:
+// Only share function/methods, so no no data!We need to replicate properties en each constructor!
+Create_rcfLogin.prototype = inherit(Create_rcfOperation.prototype);
+Create_rcfLogin.prototype.constructor = Create_rcfLogin;
+
+
+Create_rcfLogin.prototype.crearJ1=function() {
+		console.log('rcfLogin.crearJ1: '+ this.userlogin );
+		var obj = new Object();
+		obj.id = this.userlogin; 
+		obj.pass = this.passmd5;
+		console.log( obj );
+		return obj;
+}
+
+Create_rcfLogin.prototype.callOperation=function() {
+		console.log('rcfLogin.callOperation J0: '+ this.userlogin );
+		console.log('rcfLogin.callOperation J0: '+ this.passmd5 );
+		
+		var jsonJ1=this.crearJ1();
+		
+		console.log('rcfLogin.callOperation J1: '+ jsonJ1 );
+		console.log(jsonJ1 );
+		
+		var jsonJ0=this.createJ0(jsonJ1, rcfAPP.glob_session, rcfAPP.glob_sigop);
+		console.log('rcfLogin.callOperation J2: '+jsonJ0);
+		this.callOperationJ0(jsonJ0, this.url);
+}
+
+
+Create_rcfLogin.rcf_op_login= function(user, pass) 
+{
+	console.log('rcf_op_login _ '+user+' - '+pass);
+	const opLogin = new Create_rcfLogin(user, pass);
+	console.log('rcf_op_login _2 ');
+	opLogin.callOperation(user, pass);
+}
+
+rcfAPP.pintar_login=function(paramJ0) {
+	var text = JSON.stringify(paramJ0);
+	if (paramJ0["login"]["status"] == "success") {
+			rcfAPP.glob_session=paramJ0["login"]["data"]["session"];
+			rcfAPP.glob_sigop=paramJ0["login"]["data"]["sigop"];
+			rcfAPP.glob_pid=paramJ0["servicepid"];
+						
+			document.getElementById("session").value=rcfAPP.glob_session;
+			document.getElementById("sigop").value=rcfAPP.glob_sigop;
+			document.getElementById("session_state").textContent='ON. Service pid:' + rcfAPP.glob_pid;
+			
+			localStorage.sessionrcf=rcfAPP.glob_session;
+			
+	}else{
+			alert("Error: "+ paramJ0["login"]["data"]["msg"]);
+	}
+}
+
+
+/****
+Operation: logout
+Object(class): Create_rcfLogout
+****/
+        
+function Create_rcfLogout()
+{
+		this.name='logout';
+		//Create_rcfOperation.call(this, 'logout', true);	
+		this.url='/fcgi/logout/';
+}
+
+Create_rcfLogout.prototype = inherit(Create_rcfOperation.prototype);
+Create_rcfLogout.prototype.constructor = Create_rcfLogout;
+
+
+Create_rcfLogout.prototype.crearJ1=function() 
+{
+		var obj = new Object();
+		return obj;
+}
+
+Create_rcfLogout.prototype.callOperation=function() {
+		var jsonJ1=this.crearJ1();
+		console.log('rcfLogout.callOperation J1: '+ jsonJ1 );
+		var jsonJ0=this.createJ0(jsonJ1, rcfAPP.glob_session, rcfAPP.glob_sigop);
+		console.log('rcfLogout.callOperation J0: '+jsonJ0);
+		this.callOperationJ0(jsonJ0, this.url );
+}
+
+
+rcfAPP.rcf_op_logout=function () {
+	console.log('rcf_op_logout 1');
+	const operation = new Create_rcfLogout( );
+	console.log('rcf_op_logout 2');	
+	operation.callOperation();
+	console.log('rcf_op_logout 3');
+}
+
+rcfAPP.pintar_logout =function(paramJ0, paramJ1) {
+	rcfAPP.glob_session=null;
+	rcfAPP.glob_sigop=null;
+	document.getElementById("session").innerHTML='';
+	document.getElementById("sigop").innerHTML='';
+	document.getElementById("session_state").textContent='OFF';
+	
+}
+
+
+/****
+Operation: lsdir
+Object(class): Create_rcfLsdir
+****/
+function Create_rcfLsdir( path )
+{
+		var name='lsdir';
+		this.name=name;
+		this.url='/fcgi/lsdir/';
+		this.path=path;
+		this.j1=''; //Toda la cadena J1
+		this.resJ1='';
+} 
+
+Create_rcfLsdir.prototype = inherit(Create_rcfOperation.prototype);
+Create_rcfLsdir.prototype.constructor = Create_rcfLsdir;
+	  
+Create_rcfLsdir.prototype.crearJ1=function() {
+		var obj = new Object();
+		obj.path = this.path; //elemento name:'<nombreop>'
+		return obj;
+}
+		
+Create_rcfLsdir.prototype.callOperation=function(session) { //Se le tiene que pasar la session...
+		var jsonJ1=this.crearJ1();
+		var jsonJ0=this.createJ0(jsonJ1, rcfAPP.glob_session, rcfAPP.glob_sigop);
+		this.callOperationJ0(jsonJ0, this.url);
+}
+        
+
+rcfAPP.rcf_op_lsdir = function(path) {
+	document.getElementById("textolargo").innerHTML='';
+	console.log('rcf_op_logout 1');
+	const operation = new Create_rcfLsdir( path );
+	operation.callOperation();
+	console.log('rcf_op_logout 3');
+}
+
+rcfAPP.pintar_lsdir = function(paramJ0, paramJ1) {
+		var text=paramJ1['data']['msg'];
+		var textoLs=Base64.decode(text);
+		document.getElementById("textolargo").innerHTML=textoLs;
+}
+
+/***
+Operation: service
+start/stop/status service
+***/
+
+function Create_rcfService( servname, servaction )
+{
+		this.name='service';
+		this.url='/fcgi/service/';
+		this.servname=servname;
+		this.servaction=servaction; 
+		this.resJ1='';
+} 
+
+Create_rcfService.prototype = inherit(Create_rcfOperation.prototype);
+Create_rcfService.prototype.constructor = Create_rcfLsdir;
+	  
+Create_rcfService.prototype.crearJ1=function() {
+		var obj = new Object();
+		obj.servname = this.servname;
+		obj.servaction=this.servaction;
+		return obj;
+}
+		
+Create_rcfService.prototype.callOperation=function(session) { //Se le tiene que pasar la session...
+		var jsonJ1=this.crearJ1();
+		var jsonJ0=this.createJ0(jsonJ1, rcfAPP.glob_session, rcfAPP.glob_sigop);
+		this.callOperationJ0(jsonJ0, this.url);
+}
+        
+
+Create_rcfService.rcf_op_service = function(path) {
+	document.getElementById("textolargo").innerHTML='';
+	console.log('rcf_op_logout 1');
+	const operation = new Create_rcfLsdir( path );
+	operation.callOperation();
+	console.log('rcf_op_logout 3');
+}
+
+rcfAPP.pintar_service = function(paramJ0, paramJ1) {
+		var text=paramJ1['data']['msg'];
+		var textoLs=Base64.decode(text);
+		console.log('rcfAPP.pintar_service para:'+rcfAPP.service_respuesta);
+		console.log('rcfAPP.pintar_service resp:'+textoLs);
+		console.log('rcfAPP.pintar_service elemento:'+document.getElementById(rcfAPP.service_respuesta));
+		document.getElementById(rcfAPP.service_respuesta).innerHTML=textoLs;
+		rcfAPP.service_respuesta="";
+		
+}
+
+rcfAPP.rcf_op_service= function (servname, actionname, resp_elem_name) { 
+	console.log('rcf_op_service');	
+	const opService = new Create_rcfService(servname, actionname);
+	console.log('rcf_op_service');
+	rcfAPP.service_respuesta=resp_elem_name; //Will be used in 'Create_rcfService.pintar_service' function
+	opService.callOperation();
+}		
+
+
+
+		
+	
+
+
+rcfAPP.rcf_op_command = function() {
+	
+	console.log('rcf_op_command: ');	
+	
+	var exepath=document.getElementById("exepath").value;
+				
+	document.getElementById("textolargo_command").innerHTML='';
+	console.log('rcf_op_user 1'+ exepath);
+	const operation = new Create_rcfCommand(exepath );
+	console.log('rcf_op_user 2');	
+	operation.callOperation();
+	console.log('rcf_op_user 3');
+}
+
+rcfAPP.pintar_command = function(paramJ0, paramJ1) {
+		var text=paramJ1['data']['msg'];
+		console.log('pintar_command 1 '+ text);
+		var textoLs=Base64.decode(text);
+		console.log('pintar_command 2\n '+ textoLs);
+		document.getElementById("textolargo_command").innerHTML=textoLs;
+		console.log('pintar_command 3\n ');
+}
+
+
+/****
+Operation: sessionuser
+Object(class): Create_rcfSessionUser
+****/
+		function Create_rcfSessionUser()
+		{
+			this.name='sessionuser';
+			this.url='/fcgi/sessionuser/';
+		}
+		
+		Create_rcfSessionUser.prototype = inherit(Create_rcfOperation.prototype);
+		Create_rcfSessionUser.prototype.constructor = Create_rcfSessionUser;
+		
+		Create_rcfSessionUser.prototype.crearJ1=function() {
+			var obj = new Object();
+			console.log('rcfSessionUser.crearJ1 ');
+			console.log(obj);
+			return obj;
+		}
+
+        Create_rcfSessionUser.prototype.callOperation=function() {
+			var jsonJ1=this.crearJ1();
+			console.log('Create_rcfSessionUser.callOperation J1: '+ jsonJ1 );
+			var jsonJ0=this.createJ0(jsonJ1, rcfAPP.glob_session, rcfAPP.glob_sigop);
+			console.log('Create_rcfSessionUser.callOperation J0: '+jsonJ0);
+			this.callOperationJ0(jsonJ0, this.url );
+		}
+		
+rcfAPP.pintar_sessionuser =function(paramJ0, paramJ1) {
+		console.log('pintar_sessionuser 1: '+paramJ1);
+		console.log(paramJ1);
+		
+		document.getElementById("usrpkid").value=paramJ1['data']['pkid'];
+		document.getElementById("name").value=paramJ1['data']['name'];
+		document.getElementById("usrlogin").value=paramJ1['data']['login'];
+		console.log('pintar_user 4 login: '+paramJ1['data']['login']);
+		console.log('pintar_user 4 login: '+document.getElementById("usrlogin").value);
+		document.getElementById("email").value=paramJ1['data']['email'];
+		document.getElementById("oldpass").value='';
+		document.getElementById("newpass").value='';
+		console.log('pintar_user 2');
+}
+
+        
+
+		
+		rcfAPP.pintar_user=function (paramJ0, paramJ1) {
+				console.log('pintar_user 1: '+paramJ1);
+				console.log('pintar_user 2: '+paramJ1['data']['login']);
+				console.log('pintar_user 3: '+paramJ1['data']['email']);
+				document.getElementById("usrpkid").value=paramJ1['data']['pkid'];
+				document.getElementById("name").value=paramJ1['data']['name'];
+				document.getElementById("usrlogin").value=paramJ1['data']['login'];
+				console.log('pintar_user 4 login: '+paramJ1['data']['login']);
+				console.log('pintar_user 4 login: '+document.getElementById("usrlogin").value);
+				
+				document.getElementById("email").value=paramJ1['data']['email'];
+				document.getElementById("oldpass").value='';
+				document.getElementById("newpass").value='';
+				console.log('pintar_user 2');
+        }
+		
+
+		/***
+		Operation: command
+		***/
+        
+        function Create_rcfCommand(exepath)
+        {
+			this.name='command';
+			//Create_rcfOperation.call(this, 'command', true);	
+			this.url='/fcgi/command/';
+			this.exepath=exepath;
+		}
+		
+		Create_rcfCommand.prototype = inherit(Create_rcfOperation.prototype);
+		Create_rcfCommand.prototype.constructor = Create_rcfCommand;
+
+		
+		Create_rcfCommand.prototype.crearJ1=function() {
+				var obj = new Object();
+				obj.exepath=this.exepath;
+				return obj;
+		}
+
+		Create_rcfCommand.prototype.callOperation=function() {
+				var jsonJ1=this.crearJ1();
+				console.log('rcfCommand.callOperation J1: '+ jsonJ1 );
+				var jsonJ0=this.createJ0(jsonJ1, rcfAPP.glob_session, rcfAPP.glob_sigop);
+				console.log('rcfCommand.callOperation J0: '+jsonJ0);
+				this.callOperationJ0(jsonJ0, this.url );
+		}
+
+		/****
+		Operation: rcfOpServBblue
+		
+		exemotor1 -m0 -t200 -d-0.5
+		...
+		
+		*****/
+		function Create_rcfServBlue(command)
+        {
+			this.name='bblue';
+			this.command=command;
+			this.url='/fcgi/bblue/';
+
+		}
+		
+		Create_rcfServBlue.prototype = inherit(Create_rcfOperation.prototype);
+		Create_rcfServBlue.prototype.constructor = Create_rcfServBlue;
+		
+		Create_rcfServBlue.prototype.crearJ1=function() {
+			var obj = new Object();
+			obj.oper = this.command; //elemento name:'<nombreop>'
+			return obj;
+		}
+		
+		Create_rcfServBlue.prototype.callOperation=function(session) { 
+			var jsonJ1=this.crearJ1();
+			console.log('Create_rcfServBlue.callOperation session global: '+rcfAPP.glob_session);	
+			var jsonJ0=this.createJ0(jsonJ1, rcfAPP.glob_session, rcfAPP.glob_sigop);
+			this.callOperationJ0(jsonJ0, this.url);
+		}
+        
+        
+        rcfAPP.rcf_op_blue=function(bluecommand) {
+			
+			console.log('rcf_op_blue: '+bluecommand);	
+			if( arguments.length!=1 ) {
+				alert('Error no command for blue!');
+				return;
+			}
+
+			document.getElementById("textolargo_command").innerHTML='';
+			
+			console.log('rcf_op_blue 1'+ bluecommand );
+			const operation = new Create_rcfServBlue(bluecommand );
+			console.log('rcf_op_blue 2');	
+			operation.callOperation();
+			console.log('rcf_op_blue 3');
+		}
+		
+        
+        rcfAPP.pintar_bblue=function(paramJ0, paramJ1) {
+				var text=paramJ1['data']['msg'];
+				console.log('pintar_command 1 '+ text);
+				var textoLs=Base64.decode(text);
+				console.log('pintar_command 2\n '+ textoLs);
+				document.getElementById("textolargo_command").innerHTML=textoLs;
+				console.log('pintar_command 3\n ');
+        }
+        
+        /**
+           Create command to send. Mixed direction and conf values
+           in text input.
+           
+			'F' 'B' forward, backward (linear=
+			'R' 'L' right, left (spin)
+			
+        ***/
+        function operationDirection( movimiento )
+        {
+			var command="exemotor1 ";
+			// exemotor1 -m0 -txxx -dyy 
+			
+			if(movimiento=='F') {
+				command=command+" "+"-m0 -t"+rcfAPP.glob_blue.linemovetime+" -d"+rcfAPP.glob_blue.linemoveduty;
+			}else if(movimiento=='B') {
+				command=command+" "+"-m0 -t"+rcfAPP.glob_blue.linemovetime+" -d-"+rcfAPP.glob_blue.linemoveduty;
+			}else if(movimiento=='L') {
+				command=command+" "+"-m1 -t"+rcfAPP.glob_blue.spinmovetime+" -d"+rcfAPP.glob_blue.spinmoveduty;
+			}else if(movimiento=='R') {
+				command=command+" "+"-m1 -t"+rcfAPP.glob_blue.spinmovetime+" -d-"+rcfAPP.glob_blue.spinmoveduty;
+			}
+			console.log("operationDirection comman:"+command);
+			return command;
+		}
+        
+		/**** fin rcfOpServBblue *******/	
+		
+        
+
+        
+        function XHRLoadHandler(event) {
+			console.log("XHRLoadHandler Loaded");
+		}
+
+		function XHRErrorHandler(event) {
+			console.log("XHRErrorHandler Error");
+		}
+		
+
+        
+        
+        
+        
+        /**
+          Get actual user info and show it
+        ***/
+        function rcf_op_user_init() {
+			
+			const operation = new Create_rcfSessionUser();
+			console.log('rcf_op_user_init 2');	
+			operation.callOperation();
+			console.log('rcf_op_user_init 3');	
+		}
+        
+        
+        function rcf_op_updateuser() {
+			
+			console.log('rcf_op_user: ');	
+			
+			var pkid=document.getElementById("usrpkid").value;
+			var name=document.getElementById("name").value;
+			var login=document.getElementById("usrlogin").value;
+			var email=document.getElementById("email").value;
+			var oldpass=document.getElementById("oldpass").value;
+			var newpass=document.getElementById("newpass").value;
+			
+			document.getElementById("newpass").innerHTML='';
+			console.log('rcf_op_user 1');
+			const operation = new Create_rcfUser(pkid, name, login ,email, oldpass, newpass );
+			console.log('rcf_op_user 2');	
+			operation.callOperation();
+			console.log('rcf_op_user 3');
+		}
+        
+		
+        function rcf_op_createuser() {
+			
+			console.log('rcf_op_createuser: ');	
+		
+			var name=document.getElementById("newuser_name").value;
+			var login=document.getElementById("newuser_login").value;
+			var email=document.getElementById("newuser_email").value;
+			var pass=document.getElementById("newuser_pass").value;
+			var pass2=document.getElementById("newuser_pass2").value;
+			
+			if( pass!=pass2 ) {
+					alert("Password is not the same in both inputs");
+					return;
+			}
+
+			console.log('rcf_op_newuser');
+			const operation = new Create_rcfNewUser( name, login ,email, pass );
+			console.log('rcf_op_newuser 2');	
+			operation.callOperation();
+			console.log('rcf_op_newuser 3');
+		}
+
+		function rcf_op_listeuser() {
+			 console.log('rcf_op_listeuser: ');	
+			 const operation = new Create_rcfListUser();
+			 operation.callOperation();
+		}
+		
+		var listaopciones=[
+				   {name:'ping',         ping:  { template:"false"}},
+				   {name:'login',        login:  { template:"false", j1:{usr:'usr_label',pass:'pass_label'}}},
+				   {name:'lsdir',        lsdir:  { template:"false", j1:{dir:'dir_label',param:'param_label'}}},
+				   {name:'service',      service:{ template:"false", j1:{servname:'name',servaction:'action'}}},
+				   {name:'sessionuser',  sessionuser: { template:"false" }},
+				   {name:'user',         user: { template:"false"  }},
+				   {name:'newuser',      newuser: { template:"false"  }},
+				   {name:'listuser',     listuser: { template:"false"  }},
+				   {name:'command',      command:{ template:"false"  }},
+				   {name:'bblue',        bblue:{ template:"true", j1:{operation:'oper',param:'param'} }}
+                  ];	
+ 
+
+        function hidealloption() {
+				console.log('inicio');
+				listaopciones.forEach( function(element) {
+						document.getElementById(element['name']+'_div').style.display = 'none';
+				});
+				console.log('fin');
+        }
+
+		/***
+		  Selected main menu for each option.
+		  
+		  
+		  
+        ***/
+        function optionsel(opcion) {
+                var nombrediv=opcion+'_div';
+                hidealloption();
+                cleanMessageInfo();
+                console.log(nombrediv);
+                
+                if( opcion=='bblue' ) {
+					rcfAPP.glob_blueapanel=true;
+				}else {
+					rcfAPP.glob_blueapanel=false;
+				}
+                var div=document.getElementById(nombrediv);
+                if( !div ) {
+						alert("Missing div:"+nombrediv);
+				}
+                document.getElementById(nombrediv).style.display = 'block';
+                create_input_field(nombrediv,listaopciones, opcion);
+        }
+
+		function cleanMessageInfo() {
+			
+			document.getElementById("send_txt").innerHTML='';
+			document.getElementById("data_txt").innerHTML='';
+			
+		}
+
+        
+        function showMessageInfo( trueorfalse ) {
+			
+			if( trueorfalse ) {
+			
+			}else{	
+			showOrHide('data_div');
+			document.getElementById('show_less').style.display='';
+			}
+			
+		}
+        
+
+        document.getElementById('show_data').onclick = function ( evt ) {
+			var divdata = document.getElementById('data_div');
+			if (divdata.style.display === "none") {
+				divdata.style.display = "block";
+				this.innerHTML="hide -";
+			} else {
+				divdata.style.display = "none";
+				this.innerHTML="show +";
+			}
+		}
+        
+		function showOrHide(element) {
+		  var x = document.getElementById(element);
+		  if (x.style.display === "none") {
+			x.style.display = "block";
+		  } else {
+			x.style.display = "none";
+		  }
+		} 
+
+        
+        function isEmpty(str) {
+		  return (!str || 0 === str.length);
+		}
+
+
+
+		/***	
+		  Create input for j1 parameter
+		  
+		  parentdiv: name of div will contain fields.
+		  j1fields: j1 object of  message.
+		  operation: name of the operation.
+		***/
+        function create_input_field( parentdiv, j1fields, operation )
+        {
+           console.log('create_input_field:'+parentdiv+' operation:'+operation);
+           var pardiv=document.getElementById(parentdiv);
+
+           console.log('create_input_field 2: '+ JSON.stringify(j1fields));
+
+           var cnt=0;
+           for(cnt=0; cnt<j1fields.length; cnt++)
+           {
+                        var templateline=null;
+                        var operLeida=j1fields[cnt].name;
+                        var useTemplate=(j1fields[cnt][operLeida].hasOwnProperty('template') &&
+									    (j1fields[cnt][operLeida].template==='true') );
+                        
+                        console.log('operleida: '+ operLeida+' template: '+ useTemplate);
+                        if( operation===operLeida && useTemplate ) {
+                                //Check if is first time. We only create fields once
+                                if( j1fields[cnt].hasOwnProperty('echo') ) {
+                                        return;
+                                }else {
+                                        j1fields[cnt].echo=true;
+                                }
+                                console.log('creando campos para:'+ operLeida );
+                                var j1=j1fields[cnt][operLeida].j1;
+                                console.log('J1: '+ JSON.stringify(j1));
+                                //Check if there is a template for label-input line
+                                templateline=document.getElementById(operation+'_line_temp' );
+                                if( templateline ) {
+                                        console.log('Existe');
+                                }
+
+                                for( field in j1 ) {
+                                        var mi = document.createElement("input");
+                                        //pardiv.appendChild(document.createTextNode(j1fields[cnt].name));
+                                        console.log('Se va a crear label para:'+operation);
+                                        //Check if already exist!
+
+                                        create_label_field( operation,pardiv,field, j1[field], templateline);
+                                }
+                        }
+                }
+        }	
+		
+		
+	/** Crea la estructura:  (operation)  (parentdivElement) (fieldname) (textoLabel)
+	    para un campo de j1
+        <div><span>(textoLabel)</span><input id="j1_(operation)_(fieldname)" type='text'></input></div>
+        
+	**/
+    function create_label_field( operation, parentdivElement, fieldname , textoLabel, templateline )
+    {
+		var divlinea=null;
+		if( templateline ) {
+				console.log('create_label_field: '+ templateline.toString());
+				divlinea=templateline.cloneNode(true);
+				divlinea.style.display='block';
+				var spans = divlinea.getElementsByTagName('span');
+				if( spans[0] ) {
+						console.log('Asignando span');
+						spans[0].innerText=textoLabel;
+						//spans[i].textContent || spans[i].innerText;
+				}
+				//document.getElementById(j1+'_'+);
+
+		} else {
+				console.log('no template ');
+				divlinea = document.createElement("div");
+				var label = document.createElement("span");
+				var mi = document.createElement("input");
+				mi.setAttribute('id', 'j1_'+operation+'_'+fieldname);
+				mi.setAttribute('type', 'text');
+				mi.setAttribute('value', '');
+				label.innerHTML=textoLabel;
+				divlinea.appendChild(label);
+				divlinea.appendChild(mi);
+		}
+		parentdivElement.appendChild(divlinea);
+    }
+
+</script>
+
+</body>
+</html>
