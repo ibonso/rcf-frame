@@ -1,0 +1,24 @@
+
+
+To be able to see coredumps:
+
+https://stackoverflow.com/questions/2065912/core-dumped-but-core-file-is-not-in-current-directory/18368068#18368068
+
+Created 
+~/.config/apport/settings with the following contents:
+[main]
+unpackaged=true
+
+Nore dumps in: /var/cras
+
+ibon@xubuntu16:~/.config/apport$ ll /var/crash/
+total 236
+drwxrwsrwt  2 root whoopsie   4096 sep 16 21:53 ./
+drwxr-xr-x 15 root root       4096 sep  4 22:11 ../
+-rw-r-----  1 ibon whoopsie 233393 sep 16 21:53 _home_ibon_beaglebone_kcgi-0.10.7_rcf-bbb-01_rcf-op-lsdir-test.1000.crash
+
+to view:
+apport-unpack /var/crash/_hom... ./dump
+
+
+gdb  ./rcf-op-lsdir-test  ./dump/CoreDump
